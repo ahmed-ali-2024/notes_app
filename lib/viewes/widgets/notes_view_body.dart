@@ -2,6 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:notesapp/viewes/widgets/custom_appbar.dart';
 import 'package:notesapp/viewes/widgets/notes_list_veiw.dart';
 
+// to creat the body of the main page
+//     contain:
+//             1- CustomAppBar widget
+//             2-NotesListView widget
 class NotesViewBody extends StatelessWidget {
   const NotesViewBody({super.key});
 
@@ -14,7 +18,10 @@ class NotesViewBody extends StatelessWidget {
           SizedBox(
             height: 16,
           ),
-          CustomAppBar(),
+          CustomAppBar(
+            icon: Icons.search,
+            text: 'Notes',
+          ),
           Expanded(
             child: NotesListView(),
           ),
