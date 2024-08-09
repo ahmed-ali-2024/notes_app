@@ -1,49 +1,64 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:notesapp/cubits/home_page_cubit/home_page_cubit.dart';
+import 'package:notesapp/models/notes_model.dart';
 import 'package:notesapp/utils/navigation_utils.dart';
 import 'package:notesapp/viewes/edite_note_view.dart';
 
 // to creat card we can show notes on it
 class ViewItemBox extends StatelessWidget {
-  const ViewItemBox({super.key});
+  const ViewItemBox({super.key, required this.note});
 
+  final NotesModel note;
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () => navigateToPage(context, const EditeNotesView()),
+      onTap: () => navigateToPage(
+          context,
+          EditeNotesView(
+            note: note,
+          )),
       child: Container(
         padding: const EdgeInsets.all(24),
         decoration: BoxDecoration(
-          color: const Color(0xffFFCF7B),
+          color: Color(note.color),
           borderRadius: BorderRadius.circular(16),
         ),
-        child: const Column(
+        child: Column(
           crossAxisAlignment: CrossAxisAlignment.end,
           children: [
             ListTile(
               contentPadding: EdgeInsets.symmetric(vertical: 16),
               title: Text(
-                'Flutter tips',
-                style: TextStyle(
+                note.title,
+                style: const TextStyle(
                     color: Colors.black, fontFamily: 'Poppins', fontSize: 20),
               ),
               subtitle: Padding(
-                padding: EdgeInsets.symmetric(vertical: 16),
+                padding: const EdgeInsets.symmetric(vertical: 16),
                 child: Text(
-                  'Build your carer with Tharwt Samy',
-                  style: TextStyle(
+                  note.subitle,
+                  style: const TextStyle(
                       color: Color(0xffB0803D),
                       fontFamily: 'Poppins',
                       fontSize: 16),
                 ),
               ),
-              trailing: Icon(
-                FontAwesomeIcons.trash,
-                color: Colors.black,
+              trailing: IconButton(
+                onPressed: () {
+                  note.delete();
+                  BlocProvider.of<HomePageCubit>(context).fitchAllNotes();
+                },
+                icon: const Icon(
+                  FontAwesomeIcons.trash,
+                  color: Colors.black,
+                  size: 24,
+                ),
               ),
             ),
             Text(
-              'May 21, 2024',
+              note.date,
               style: TextStyle(
                 color: Color(0xffB0803D),
                 fontFamily: 'Poppins',
